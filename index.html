@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Pagina protetta da password</title>
+    <style>
+        body {
+            text-align: center;
+            padding-top: 100px;
+        }
+        input[type="password"] {
+            padding: 10px;
+            font-size: 16px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Inserisci la password:</h1>
+    <input type="password" id="passwordInput">
+    <button onclick="verificaPassword()">Accedi</button>
+
+    <script>
+        function verificaPassword() {
+            var passwordInserita = document.getElementById("passwordInput").value;
+            var passwordCorrente = getPasswordCorrente(); // Funzione da implementare per ottenere la password corrente
+
+            if (passwordInserita === passwordCorrente) {
+                window.location.href = "https://www.example.com/link-desiderato"; // Sostituisci con il link desiderato
+            } else {
+                alert("Password non corretta. Riprova.");
+            }
+        }
+
+        function getPasswordCorrente() {
+            // Qui puoi implementare la logica per ottenere la password corrente dal tuo sistema
+            // Ad esempio, puoi utilizzare una chiamata a un'API o leggere da un file
+            // Restituisci la password corrente come risultato di questa funzione
+        }
+    </script>
+</body>
+</html>
