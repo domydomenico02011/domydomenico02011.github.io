@@ -63,29 +63,29 @@ input[type="text"]::placeholder {
     </div>
 
     <script>
-        function verificaPassword() {
-        function verificaPassword() {
-        var passwordInserita = document.getElementById("passwordInput").value;
+
+function verificaPassword() {
+  var passwordInserita = document.getElementById("passwordInput").value;
   
-        var richiesta = new XMLHttpRequest();
-        richiesta.open("GET", "password.txt", true);
+  var richiesta = new XMLHttpRequest();
+  richiesta.open("GET", "password.txt", true);
   
-        richiesta.onreadystatechange = function() {
-          if (richiesta.readyState === 4 && richiesta.status === 200) {
-            var passwordCorretta = richiesta.responseText.trim();
+  richiesta.onreadystatechange = function() {
+    if (richiesta.readyState === 4 && richiesta.status === 200) {
+      var passwordCorretta = richiesta.responseText.trim();
       
-            if (passwordInserita === passwordCorretta) {
+      if (passwordInserita === passwordCorretta) {
         // Password corretta, esegui le azioni desiderate
         console.log("Password corretta!");
 
         // Reindirizza l'utente a google.it
-              window.location.href = "https://www.google.it";
-            } else {
+        window.location.href = "https://www.google.it";
+      } else {
         // Password errata, gestisci l'errore
-              console.log("Password errata!");
-            }
-          }
-        };
+        console.log("Password errata!");
+      }
+    }
+  };
   
   richiesta.send();
 }
