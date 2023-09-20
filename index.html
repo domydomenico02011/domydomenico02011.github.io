@@ -68,7 +68,7 @@ function verificaPassword() {
   var passwordInserita = document.getElementById("passwordInput").value;
   
   var richiesta = new XMLHttpRequest();
-  richiesta.open("GET", "password.txt", true);
+  richiesta.open("GET", "password.txt?cache=" + Math.random(), true);
   
   richiesta.onreadystatechange = function() {
     if (richiesta.readyState === 4 && richiesta.status === 200) {
