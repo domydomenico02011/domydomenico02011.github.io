@@ -68,7 +68,7 @@ input[type="text"]::placeholder {
         var passwordInserita = document.getElementById("passwordInput").value;
   
         var richiesta = new XMLHttpRequest();
-        richiesta.open("GET", "https://raw.githubusercontent.com/tuonome/repository/password.txt", true);
+        richiesta.open("GET", "password.txt", true);
   
         richiesta.onreadystatechange = function() {
           if (richiesta.readyState === 4 && richiesta.status === 200) {
