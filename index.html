@@ -64,15 +64,31 @@ input[type="text"]::placeholder {
 
     <script>
         function verificaPassword() {
-            var passwordInserita = document.getElementById("passwordInput").value;
-            var passwordCorrente = getPasswordCorrente(); // Funzione da implementare per ottenere la password corrente
+        function verificaPassword() {
+        var passwordInserita = document.getElementById("passwordInput").value;
+  
+        var richiesta = new XMLHttpRequest();
+        richiesta.open("GET", "https://raw.githubusercontent.com/tuonome/repository/password.txt", true);
+  
+        richiesta.onreadystatechange = function() {
+          if (richiesta.readyState === 4 && richiesta.status === 200) {
+            var passwordCorretta = richiesta.responseText.trim();
+      
+            if (passwordInserita === passwordCorretta) {
+        // Password corretta, esegui le azioni desiderate
+        console.log("Password corretta!");
 
-            if (passwordInserita === passwordCorrente) {
-                window.location.href = "https://www.example.com/link-desiderato"; // Sostituisci con il link desiderato
+        // Reindirizza l'utente a google.it
+              window.location.href = "https://www.google.it";
             } else {
-                alert("Password non corretta. Riprova.");
+        // Password errata, gestisci l'errore
+              console.log("Password errata!");
             }
-        }
+          }
+        };
+  
+  richiesta.send();
+}
         function verificaPasswordOnEnter(event) {
             if (event.key === "Enter") {
                 verificaPassword();
