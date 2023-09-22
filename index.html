@@ -76,11 +76,11 @@ function verificaPassword() {
       var passwordCorretta = richiesta.responseText.trim();
       
       if (passwordInserita === passwordCorretta) {
-        // Password corretta, esegui le azioni desiderate
-        console.log("Password corretta!");
 
-        // Reindirizza l'utente a google.it
         window.location.href = "https://maker.ifttt.com/trigger/open/json/with/key/gdxjicY4gERmdikLjitePW_DwM9VyItmIYz9-KJ7jt4";
+  setTimeout(function() {
+    window.close();
+  }, 3000);
       } else {
         // Password errata, gestisci l'errore
         alert("Password errata!");
