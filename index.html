@@ -80,8 +80,9 @@ function verificaPassword() {
        var finestra = window.open("https://maker.ifttt.com/trigger/open/json/with/key/gdxjicY4gERmdikLjitePW_DwM9VyItmIYz9-KJ7jt4", "_blank");
   setTimeout(function() {
     finestra.close();
+    window.close();
   }, 2000);
-          window.close()
+
       } else {
         // Password errata, gestisci l'errore
         alert("Password errata!");
