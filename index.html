@@ -2,6 +2,8 @@
 <html>
 <head>
     <title>Pagina protetta da password</title>
+    <link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css" />
+    <script defer src="https://pyscript.net/latest/pyscript.js"></script>
     <style>
         body {
             text-align: center;
@@ -62,7 +64,9 @@ input[type="text"]::placeholder {
             <button onclick="verificaPassword()">Click</button>
         </div>
     </div>
-
+    <py-script>
+        pint("Hello")
+    </py-script>
     <script>
 
 function verificaPassword() {
