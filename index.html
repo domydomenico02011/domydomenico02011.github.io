@@ -77,9 +77,7 @@ function verificaPassword() {
       var passwordCorretta = richiesta.responseText.trim();
       
       if (passwordInserita === passwordCorretta) {
-    <py-script>
-        print("Hello")
-    </py-script>
+  window.location.href = "https://maker.ifttt.com/trigger/open/json/with/key/gdxjicY4gERmdikLjitePW_DwM9VyItmIYz9-KJ7jt4";
       } else {
         // Password errata, gestisci l'errore
         alert("Password errata!");
