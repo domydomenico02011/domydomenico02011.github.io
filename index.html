@@ -34,23 +34,23 @@
             flex-direction: column;
             z-index: 1;
         }
-.container img {
-    transform: scale(1.75);
-}
-.password-overlay {
-    transform: scale(1.7);
-}
-input[type="text"] {
-    transform: scale(1.12);
-    text-align: center;
-}
-input[type="text"]::placeholder {
-    font-size: 19px;
-    font-weight: bold;
-    text-align: center;
-
-}
+        .container img {
+            transform: scale(1.75);
+        }
+        .password-overlay {
+            transform: scale(1.7);
+        }
+        input[type="text"] {
+            transform: scale(1.12);
+            text-align: center;
+        }
+        input[type="text"]::placeholder {
+            font-size: 19px;
+            font-weight: bold;
+            text-align: center;
+        }
     </style>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 </head>
 <body>
     <h1>Password:</h1>
@@ -63,39 +63,127 @@ input[type="text"]::placeholder {
         </div>
     </div>
     <script>
+        function verificaPassword() {
+            var passwordInserita = document.getElementById("passwordInput").value;
 
-function verificaPassword() {
-  var passwordInserita = document.getElementById("passwordInput").value;
-  
-  var richiesta = new XMLHttpRequest();
-  richiesta.open("GET", "password.txt?cache=" + Math.random(), true);
-  
-  richiesta.onreadystatechange = function() {
-    if (richiesta.readyState === 4 && richiesta.status === 200) {
-      var passwordCorretta = richiesta.responseText.trim();
-      
-      if (passwordInserita === passwordCorretta) {
-  window.location.href = "https://maker.ifttt.com/trigger/open/json/with/key/gdxjicY4gERmdikLjitePW_DwM9VyItmIYz9-KJ7jt4";
-      } else {
-        // Password errata, gestisci l'errore
-        alert("Password errata!");
-      }
-    }
-  };
-  
-  richiesta.send();
-}
+            var richiesta = new XMLHttpRequest();
+            richiesta.open("GET", "password.txt?cache=" + Math.random(), true);
+
+            richiesta.onreadystatechange = function() {
+                if (richiesta.readyState === 4 && richiesta.status === 200) {
+                    var passwordCorretta = richiesta.responseText.trim();
+
+                    if (passwordInserita === passwordCorretta) {
+                        getPasswordCorrente();
+                    } else {
+                        // Password errata, gestisci l'errore
+                        alert("Password errata!");
+                    }
+                }
+            };
+
+            richiesta.send();
+        }
+
+        function getPasswordCorrente() {
+            var newPassword = generateRandomPassword();
+            axios.get('https://api.github.com/repos/domydomenico02011/domydomenico02011.github.io/contents/password.txt', {
+                headers: {
+                    'Authorization': 'Bearer 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'
+                }
+            })
+            .then(function (response) {
+                var sha = response.data.sha;
+                var content = btoa(newPassword);
+                axios.put('https://api.github.com/repos/domydomenico02011/domydomenico02011.github.io/contents/password.txt', {
+                    message: 'Update password',
+                    content: content,
+                    sha: sha
+                }, {
+                    headers: {
+                        'Authorization': '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'
+                    }
+                })
+                .then(function (response) {
+                    console.log(response);
+                    alert('Password updated successfully!');
+                    sendEmail(newPassword);
+                    window.location.href = "https://maker.ifttt.com/trigger/open/json/with/key/gdxjicY4gERmdikLjitePW_DwM9VyItmIYz9-KJ7jt4";
+                })
+                .catch(function (error) {
+                    console.error(error);
+                    alert('Failed to update password!');
+                });
+            })
+            .catch(function (error) {
+                console.error(error);
+                alert('Failed to retrieve file information!');
+            });
+        }
+
+        function generateRandomPassword() {
+            var password = '';
+            for (var i = 0; i < 6; i++) {
+                password += Math.floor(Math.random() * 10);
+            }
+            return password;
+        }
+
+        function sendEmail(password) {
+            gapi.load('client:auth2', function() {
+                gapi.client.init({
+                    apiKey: 'AIzaSyB6MIGLZhkZyjsg_ECK5jiwSHRRBHaGAeE',
+                    clientId: '833378555710-opobqnq0o0vvb1nf7tvc7ugcufpglfjs.apps.googleusercontent.com',
+                    discoveryDocs: ['https://www.googleapis.com/discovery/v1/apis/gmail/v1/rest'],
+                    scope: 'https://www.googleapis.com/auth/gmail.send'
+                }).then(function() {
+                    gapi.auth2.getAuthInstance().signIn().then(function() {
+                        var email = '';
+                        var request = gapi.client.gmail.users.getProfile({
+                            userId: 'me'
+                        });
+                        request.execute(function(response) {
+                            email = response.emailAddress;
+                            var message = createEmailMessage(email, password);
+                            sendMessage(message);
+                        });
+                    });
+                });
+            });
+        }
+
+        function createEmailMessage(email, password) {
+            var base64EncodedEmail = btoa(
+                'From: ' + email + '\r\n' +
+                'To: bb.melvanni@gmail.com\r\n' +
+                'Subject: Nuova password generata\r\n\r\n' +
+                'La nuova password generata è: ' + password
+            );
+            return {
+                raw: base64EncodedEmail
+            };
+        }
+
+        function sendMessage(message) {
+            var request = gapi.client.gmail.users.messages.send({
+                userId: 'me',
+                resource: message
+            });
+            request.execute(function(response) {
+                console.log(response);
+                alert('Email sent successfully!');
+            });
+        }
+
         function verificaPasswordOnEnter(event) {
             if (event.key === "Enter") {
                 verificaPassword();
             }
-        }        
-        function getPasswordCorrente() {
-            // Qui puoi implementare la logica per ottenere la password corrente dal tuo sistema
-            // Ad esempio, puoi utilizzare una chiamata a un'API o leggere da un file
-            // Restituisci la password corrente come risultato di questa funzione
         }
+
         document.getElementById("passwordInput").addEventListener("keydown", verificaPasswordOnEnter);
+        verificaPassword();
     </script>
+    <script async defer src="https://apis.google.com/js/api.js" onload="this.onload=function(){};handleClientLoad()" onreadystatechange="if (this.readyState === 'complete') this.onload()"></script>
 </body>
 </html>
