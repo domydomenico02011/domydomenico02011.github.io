@@ -57,12 +57,11 @@ input[type="text"]::placeholder {
 <body>
  <button id = "show_output" class = "btn btn-primary" type = "submit" pys-onClick="show_output">Show Output</button>
  <div id="output_div" style="margin-top: 10px;margin-bottom: 10px;"></div>
-        <py-script> 
-             
-             def show_output(*args, **kwargs):
-                output = Element("output_div")
-                output.write("You Clicked Me!")
-    </py-script>
+ <py-script> 
+    def show_output(*args, **kwargs):
+    output = Element("output_div")
+    output.write("You Clicked Me!")
+ </py-script>
     <h1>Password:</h1>
     <div class="container">
         <!-- Aggiungi l'immagine qui -->
